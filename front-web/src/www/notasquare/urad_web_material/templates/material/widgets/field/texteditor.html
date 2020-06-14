@@ -1,0 +1,13 @@
+{% extends 'material/widgets/field/field.html' %}
+{% block field_widget %}
+<textarea id='urad_richtext_field' type="textarea" class="form-control" rows="{{ options.rows }}" name="{{ field.id }}">{{ field.data | escape }}</textarea>
+<script type="text/javascript">
+    jQuery('#urad_richtext_field').redactor({
+        minHeight:'450px',
+        maxHeight:'550px',
+        plugins: ['table', 'fontcolor', 'source', 'inlinestyle', 'fullscreen'],
+        fileUpload: '/file_upload/create',
+        imageUpload: '/file_upload/create',
+    })
+</script>
+{% endblock %}

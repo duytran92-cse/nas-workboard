@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'material/vendors/bower_components/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'material/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'material/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+    <link href="{% static 'material/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}" rel="stylesheet">
+    <link href="{% static 'material/vendors/summernote/dist/summernote.css' %}" rel="stylesheet">
+    <link href="{% static 'material/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+
+    <script src="{% static 'material/vendors/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'material/vendors/bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="{% static 'material/css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'material/css/app_1.min.css' %}" rel="stylesheet">
+    <link href="{% static 'material/css/app_2.min.css' %}" rel="stylesheet">
+
+    <!-- RichText Redactor -->
+    <link href="{% static 'material/plugins/redactor/redactor.min.css' %}" rel="stylesheet">
+    <script src="{% static 'material/plugins/redactor/redactor.min.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/filemanager.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/fullscreen.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/imagemanager.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/inlinestyle.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/source.js' %}"></script>
+    <script src="{% static 'material/plugins/redactor/table.js' %}"></script>
+</head>
+
+<body>
+    <header id="header" class="clearfix" data-ma-theme="red" style="background-color: #FFFFFF">
+        <ul class="h-inner">
+            <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
+
+            <li class="hi-logo hidden-xs">
+                <a href="/">
+                    <image src ="{% static 'material/img/logo/logo.png' %}" style="height: 18px"/>
+                </a>
+            </li>
+
+            <li>
+            	<div class="ms-search hidden-xs" style="padding: 0px 84px">	<!-- fix padding style -->
+                	<div class="fg-line" style="width: 700px; position: relative; vertical-align: top">
+                    	<i class="zmdi zmdi-search"></i>
+                         <form class="form-inline" action="/search/">
+                            <div class="form-group fg-line" style="width: 89%">
+                              <input id= 'keyword' type="text" name='keyword' class="form-control" placeholder="Search boards, stories, categories ..." 
+                                style="width: 100%">
+                            </div>
+
+                            <div class="form-group pull-right">
+                              <button type='submit' class='btn btn-primary' value='Search'>Search</button>
+                            </div>
+                        </form>
+                    </div>
+            	</div>
+            </li>
+
+            <li class="pull-right">
+                <ul class="hi-menu">
+                    <li class="dropdown">
+                        <a class="btn bgm-black" data-toggle="dropdown">
+                            {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dm-icon pull-right">
+                            <div class="list-group">
+                                <div class="lg-body">
+                                    <a class="list-group-item media" href="{{ user.profile_link }}">Update Profile</a>
+                                    <a class="list-group-item media" href="{{ user.logout_link }}">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </header>
+
+    <section id="main">
+        <section id="content" style="padding-left: 0px">
+            <div class="container">
+                {% block main %}
+                    {{ widget_html | safe }}
+                {% endblock %}
+            </div>
+        </section>
+    </section>
+
+
+    <!-- Javascript Libraries -->
+    <script src="{% static 'material/vendors/bower_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/Waves/dist/waves.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bootstrap-growl/bootstrap-growl.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'material/vendors/summernote/dist/summernote-updated.min.js' %}"></script>
+    <script src="{% static 'material/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+    <!-- Placeholder for IE9 -->
+    <!--[if IE 9 ]>
+        <script src="{% static 'material/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js' %}"></script>
+    <![endif]-->
+
+    <script src="{% static 'material/js/app.js' %}"></script>
+
+    <script type="text/javascript">
+        {% block footerScript %}
+        {% endblock %}
+    </script>
+    <script>
+        function goto_task(board_id, task_id) {
+            window.location.href = '/board/detail/'+ board_id +'/task/update/'+ task_id;
+        }
+        function goto_board_summary(board_id) {
+            window.location.href = '/board/home/'+ board_id;
+        }
+        function goto_goal(board_id) {
+            window.location.href = '/board/detail/'+ board_id +'/goal/list';
+        }
+    </script>
+</body>
+</html>

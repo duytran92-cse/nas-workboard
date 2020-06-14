@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Instruction</h2>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width="20%">Stage</th>
+                <th>Instruction</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in widget.stages %}
+                <tr>
+                    <td><text class="board-status" style="color: {{ s.text_color }}; background-color: {{ s.bg_color }}">{{ s.name }}</text></td>
+                    <td>{{ s.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Responsibilities</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="20%">User</th>
+                    <th>Responsibility</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: #FFFFFF">
+                {% for res in widget.board_responsibility %}
+                    <tr>
+                        <td>{{ res.username }}</td>
+                        <td>
+                            {% for desc in res.des_responsibility %}
+                                {{ desc.description }} <br/>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Story auto-assignment</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="20%">Category</th>
+                    {% for s in widget.stages %}
+                    <th><text class="board-status" style="color: {{ s.text_color }}; background-color: {{ s.bg_color }}">{{ s.name }}</text></th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody style="background-color: #FFFFFF">
+                {% for c in widget.categories %}
+                    <tr>
+                        <td>{{ c.name }}</td>
+                        {% for a in c.assignments %}
+                        <td>{{ a.manager_label }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery('.col-md-7').addClass("col-md-10").removeClass("col-md-7");
+    });
+</script>

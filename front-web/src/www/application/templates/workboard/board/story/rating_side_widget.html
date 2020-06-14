@@ -1,0 +1,69 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Rating</h2>
+        <ul class="actions">
+            <div style="font-size: 20px">
+                <i onclick="rating('+', 'rating-up')" id="rating-up" class="zmdi zmdi-thumb-up rating-up"></i>
+                <i onclick="rating('.', 'rating-none')" id="rating-none" class="zmdi zmdi-minus rating-none"></i>
+                <i onclick="rating('-', 'rating-down')" id="rating-down" class="zmdi zmdi-thumb-down rating-down"></i>
+            </div>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="list-group">
+            <div class="container list-group-item media" style="padding-top:10px">
+                <div class="row">
+                    <div class="col-md-10">
+                        <textarea type="textarea" class="form-control" placeholder="" rows="2" id="rating-description"></textarea>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="#" onclick="update_rating(event)" class="btn btn-xs btn-primary"> Save </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var def_rating_id = '.';
+    jQuery(document).ready(function() {
+        jQuery('.rating-up').removeClass('rating-up-active');
+        jQuery('.rating-down').removeClass('rating-down-active');
+        jQuery('.rating-none').removeClass('rating-none-active');
+
+        jQuery('#{{ widget.rating.rating_active }}').addClass('{{ widget.rating.rating_active }}-active');
+        jQuery('#rating-description').val("{{ widget.rating.notes }}")
+    });
+    function rating(rating_id, id) {
+        def_rating_id = rating_id;
+        jQuery('.rating-up').removeClass('rating-up-active');
+        jQuery('.rating-down').removeClass('rating-down-active');
+        jQuery('.rating-none').removeClass('rating-none-active');
+
+        jQuery('#'+ id).addClass(id+ '-active');
+    }
+    function update_rating(e) {
+        e.preventDefault();
+        var description = jQuery("#rating-description").val();
+        var _url = "/board/detail/{{ widget.rating.board_id }}/story/update_rating";
+        var story_id ="{{ widget.rating.story_id }}";
+
+        jQuery.ajax({
+            url: _url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'story_id': story_id,
+                'notes': description,
+                'rating': def_rating_id
+            },
+            async: false,
+        })
+        .done(function(result) {
+            location.reload();
+        })
+        .fail(function(error) {
+            console.log("error");
+        })
+    }
+</script>

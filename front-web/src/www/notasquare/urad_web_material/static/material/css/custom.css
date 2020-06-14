@@ -1,0 +1,79 @@
+.table-field-list tbody tr td,
+.table-field-list tbody tr th,
+.table-field-list thead tr th,
+.table-field-list thead tr td,
+.table-field-list tfoot tr th,
+.table-field-list tfoot tr td {
+    border: none;
+    padding: 0px;
+}
+
+.table>tbody>tr:last-child>td, .table>tfoot>tr:last-child>td {
+    padding-bottom: 10px ! important;
+}
+
+
+.table-field-list thead tr th:first-child,
+.table-field-list tbody tr td:first-child,
+.table-field-list tfoot tr td:first-child {
+    padding: 0px;
+}
+
+.table-field-list thead tr th:last-child,
+.table-field-list tbody tr td:last-child,
+.table-field-list tfoot tr td:last-child {
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+
+.table-field-list {
+    margin-top: 10px;
+}
+
+.active-menu {
+    color: red !important;
+}
+
+.text-user {
+    color: #2196F3 !important;
+    cursor: pointer;
+}
+
+.card .card-header {
+    border-bottom: 1px solid #EEEEEE !important;
+}
+
+.board-status {
+    font-size: 11px;
+    color: #FFFFFF;
+    padding: 1px 5px 1px 5px;
+}
+
+.rating-down-active {
+    color: red;
+}
+.rating-up-active {
+    color: #4CAF50;
+}
+.rating-none-active {
+    color: #2196F3;
+}
+.rating-up, .rating-down, .rating-none  {
+    cursor: pointer;
+}
+.rating-up:hover{
+    color: #4CAF50;
+}
+
+.rating-down:hover{
+    color: red;
+}
+
+.rating-none:hover{
+    color: #2196F3;
+}
+
+
+.popover-content {
+    color: #000000;
+}

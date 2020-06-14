@@ -1,0 +1,174 @@
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card" id="profile-main" style="min-height: 200px">
+                <div class="c-overflow">
+                    <div class="pmo-pic">
+                        <div class="p-relative">
+                            <a href="">
+                                <img class="img-responsive" src="{% static 'material/img/profile.jpg' %}" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pmo-block pmo-contact hidden-xs">
+                        <h2>Contact</h2>
+                        <ul>
+                            <li><i class="zmdi zmdi-account"></i>{{ user.name }}</li>
+                            <li><i class="zmdi zmdi-email"></i> {{ user.email }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Performance Reports</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <tr>
+                            <td style="width: 40%">Month</td>
+                            <td><input id="performance_report_month" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%">Year</td>
+                            <td><input id="performance_report_year" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a target="_blank" class="btn btn-xs btn-success" href="javascript:generate_performance_report()">Report</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
+                        function generate_performance_report() {
+                            var month = jQuery('#performance_report_month').val()
+                            var year = jQuery('#performance_report_year').val()
+                            document.location = "/report/export_performance_report?month=" + month + "&year=" + year
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <div class="card" style="padding-top: 10px; padding-bottom: 5px">
+                <ul>
+                    <!-- <li> -->
+                        <a href='/statistics/' style="margin: -25px">Statistics Reports</a>
+                        <!-- <a href='http://127.0.0.1:8052/statistics/' style="padding: 20px">Statistics Reports</a> -->
+                    	
+                    <!-- </li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Your queues</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Name</th>
+                                <th style="width: 40%">Queue summary</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for queue in dashboard_data.your_queues %}
+                                <tr>
+                                    <td>{{ queue.name }}<br/>
+                                        <i style="color: #CCC">{{ queue.description }}</i>
+                                    </td>
+                                    <td>
+                                        {% for x in queue.request_stats %}
+                                            <a href="/queue/detail/{{ queue.id }}/request/list" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                                <b>{{ x.count }}</b> {{ x.name|lower }}
+                                            </a>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-primary" href="/queue/detail/{{ queue.id }}/request/list">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Your boards</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">Name</th>
+                                <th style="width: 10%">Status</th>
+                                <th style="width: 10%">End</th>
+                                <th style="width: 20%">Your summary</th>
+                                <th style="width: 20%">Board summary</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for month, boards in dashboard_data.your_boards.items %}
+                                <tr>
+                                    <td colspan="6" style="font-weight: 600; background-color: #FAFAFA">{{ month }}</td>
+                                </tr>
+                                {% for board in boards %}
+                                    <tr>
+                                        <td style="padding-left: 50px">{{ board.board.name }}<br/>
+                                            <i style="color: #CCC">{{ board.board.description }}</i>
+                                        </td>
+                                        <td><span class="board-status" style="color: {{ board.board.status_text_color }}; background-color: {{ board.board.status_bg_color }}">{{ board.board.status_label }}</span></td>
+                                        <td>{{ board.board.end_date }}</td>
+                                        <td>
+                                            {% for x in board.your_story_stats %}
+                                                <a href="/board/detail/{{ board.board.id }}/story/list?is_your_story=1" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                                    <b>{{ x.count }}</b> {{ x.name|lower }}
+                                                </a>
+                                            {% endfor %}
+
+                                            <br/>
+                                            {% for x in board.your_goal_stats %}
+                                                <a href="/board/home/{{ board.board.id }}" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                                    <b>{{ x.count }}</b> {{ x.name|lower }}
+                                                </a>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for x in board.board_story_stats %}
+                                                <a href="/board/detail/{{ board.board.id }}/story/list?stage_id={{ x.id }}" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                                    <b>{{ x.count }}</b> {{ x.name|lower }}
+                                                </a>
+                                            {% endfor %}
+
+                                            <br/>
+                                            {% for x in board.board_goal_stats %}
+                                                <a href="/board/detail/{{ board.board.id }}/goal/list" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                                    <b>{{ x.count }}</b> {{ x.name|lower }}
+                                                </a>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <a class="btn btn-xs btn-primary" href="/board/home/{{ board.board.id }}">View</a>
+                                                <a class="btn btn-xs btn-success" href="/report/export_board_report?board_id={{ board.board.id }}">Report</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

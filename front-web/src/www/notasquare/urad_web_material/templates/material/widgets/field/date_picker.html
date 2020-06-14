@@ -1,0 +1,15 @@
+{% extends 'material/widgets/field/field.html' %}
+{% block field_widget %}
+    <div class="dtp-container">
+        <input type='text' class="form-control date-picker"
+               id="{{ field.id }}" name="{{ field.id }}">
+    </div>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('#{{ field.id }}').datetimepicker({
+                defaultDate: "{{ field.data }}",
+                format: "DD/MM/Y"
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+
+    <!-- Vendor CSS -->
+    <script src="{% static 'material/vendors/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <!-- <script src="{% static 'material/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script> -->
+   <link href="{% static 'material/vendors/bower_components/animate.css/animate.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/nouislider/distribute/nouislider.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+
+   <link href="{% static 'material/vendors/bower_components/dropzone/dist/min/dropzone.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/farbtastic/farbtastic.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/chosen/chosen.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/summernote/dist/summernote.css' %}" rel="stylesheet">
+   <link href="{% static 'material/vendors/bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+
+
+
+   <!-- CSS -->
+   <link href="{% static 'material/css/app_1.min.css' %}" rel="stylesheet">
+   <link href="{% static 'material/css/app_2.min.css' %}" rel="stylesheet">
+
+   <!-- Following CSS are used only for the Demp purposes thus you can remove this anytime. -->
+   <link href="{% static 'material/css/demo.css' %}" rel="stylesheet">
+
+    <link href="{% static 'material/css/custom.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+    <header id="header" class="clearfix" data-ma-theme="blue" style="background-color: #011258">
+        <ul class="h-inner">
+            <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
+
+            <li class="hi-logo hidden-xs">
+                <a href="/">{{ app_title }}</a>
+            </li>
+
+            <li class="pull-right">
+                <ul class="hi-menu">
+                    <li class="dropdown">
+                        <a class="btn btn-primary" data-toggle="dropdown">
+                            {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dm-icon pull-right">
+                            <div class="list-group">
+                                <div class="lg-body">
+                                    <a class="list-group-item media" href="{{ user.profile_link }}">Update Profile</a>
+                                    <a class="list-group-item media" href="{{ user.logout_link }}">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+
+    <section id="main">
+        {% block breadcrumb %}
+            <ol class="breadcrumb" style="margin-bottom: 25px">
+                {% for entry in breadcrumb.entries %}
+                    <li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
+                {% endfor %}
+            </ol>
+        {% endblock %}
+
+        <aside id="sidebar" class="sidebar c-overflow">
+            {% block menu %}
+                {% include 'material/page_contexts/menu.html' with menu=menu %}
+                {% if submenu %}
+                    <hr/>
+                    {% include 'material/page_contexts/menu.html' with menu=submenu %}
+                {% endif %}
+                {% if subsubmenu %}
+                    <hr/>
+                    {% include 'material/page_contexts/menu.html' with menu=subsubmenu %}
+                {% endif %}
+            {% endblock %}
+        </aside>
+
+        <section id="content">
+            <div class="container">
+                {% block main %}
+                    {{ widget_html | safe }}
+                {% endblock %}
+            </div>
+        </section>
+    </section>
+
+    <!-- Javascript Libraries -->
+      <script src="{% static 'material/vendors/bower_components/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+      <script src="{% static 'material/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/Waves/dist/waves.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bootstrap-growl/bootstrap-growl.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+
+      <script src="{% static 'material/vendors/bower_components/moment/min/moment.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/nouislider/distribute/nouislider.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/dropzone/dist/min/dropzone.min.js' %}"></script>
+      <script src="{% static 'material/vendors/summernote/dist/summernote-updated.min.js' %}"></script>
+
+
+      <!-- Placeholder for IE9 -->
+      <!--[if IE 9 ]>
+          <script src="{% static 'material/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js' %}"></script>
+      <![endif]-->
+
+      <script src="{% static 'material/vendors/bower_components/chosen/chosen.jquery.js' %}"></script>
+      <script src="{% static 'material/vendors/bower_components/jquery-mask-plugin/dist/jquery.mask.min.js' %}"></script>
+      <script src="{% static 'material/vendors/fileinput/fileinput.min.js' %}"></script>
+      <script src="{% static 'material/vendors/farbtastic/farbtastic.min.js' %}"></script>
+
+      <script src="{% static 'material/js/app.min.js' %}"></script>
+
+    <script type="text/javascript">
+        {% block footerScript %}
+        {% endblock %}
+    </script>
+    <script>
+        function goto_task(board_id, task_id) {
+            window.location.href = '/board/detail/'+ board_id +'/task/update/'+ task_id;
+        }
+        function goto_board_summary(board_id) {
+            window.location.href = '/board/detail/'+ board_id +'/task/list';
+        }
+        function goto_goal(board_id) {
+            window.location.href = '/board/detail/'+ board_id +'/goal/list';
+        }
+    </script>
+</body>
+</html>

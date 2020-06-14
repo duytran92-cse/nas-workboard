@@ -1,0 +1,110 @@
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card" id="profile-main" style="min-height: 200px">
+                <div class="c-overflow">
+                    <div class="pmo-pic">
+                        <div class="p-relative">
+                            <a href="">
+                                <img class="img-responsive" src="{% static 'material/img/profile.jpg' %}" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pmo-block pmo-contact hidden-xs">
+                        <h2>Contact</h2>
+                        <ul>
+                            <li><i class="zmdi zmdi-account"></i>{{ user.name }}</li>
+                            <li><i class="zmdi zmdi-email"></i> {{ user.email }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Performance Reports</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <tr>
+                            <td style="width: 40%">Month</td>
+                            <td><input id="performance_report_month" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%">Year</td>
+                            <td><input id="performance_report_year" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a target="_blank" class="btn btn-xs btn-success" href="javascript:generate_performance_report()">Report</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
+                        function generate_performance_report() {
+                            var month = jQuery('#performance_report_month').val()
+                            var year = jQuery('#performance_report_year').val()
+                            document.location = "/report/export_performance_report?month=" + month + "&year=" + year
+                        }
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-10">
+            <div class="card">
+
+                <div class="card-header">
+                    <h2 style="font-size: 27px !important">We've found {{ search_data.matches }} results matches for keyword <a class="board-status>"
+                     style="color: #000000; background-color: #f9ff00">"{{ keyword }}"</a></h2>
+                </div>
+                <div class="card-header">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 100%">Results</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><h2><b>Board ({{ search_data.board | length }} results)</b></h2></td>
+                                {% for result in search_data.board %}
+                                <tr>
+                                    <td style="padding-left: 50px">
+                                        <a href="/board/home/{{ result.id }}">{{ result.name }}</a>  
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tr>
+
+                            <tr>
+                                <td><h2><b>Category ({{ search_data.category | length }} results)</b></h2></td>
+                                {% for result in search_data.category %}
+                                <tr>
+                                    <td style="padding-left: 50px">
+                                        <a href="/board/detail/{{ result.board_id}}/story/list?category_id={{ result.category_id }}">{{ result.name }}  
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tr>
+
+                            <tr>
+                                <td><h2><b>Story ({{ search_data.story | length}} results)</b></h2></td>
+                                {% for result in search_data.story %}
+                                <tr>
+                                    <td style="padding-left: 50px">
+                                        <a href="/board/detail/{{ result.board_id}}/story/update/{{ result.story_id }}">{{ result.name }}  
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

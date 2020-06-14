@@ -1,0 +1,7 @@
+FROM registry.novogenialab.com/notasquare-zero/images/nas-urad-admin:0.1
+
+RUN pip install PyJWT
+RUN pip install fpdf
+
+ENV APP_ENV dev
+RUN mkdir -p /opt/data

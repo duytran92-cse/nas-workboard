@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Event</h2>
+        <ul class="actions">
+            <div class="btn-group">
+                {% for button in buttons %}
+                    <a id= "{{ button.name }}" href="{{ button.url }}" class="{{ button.bclass }}">{{ button.iclass }}</a>
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th width="{{ column.width }}" class="{% if column.sortable %}{% if column.sort_dir != '' %}sorting_{{ column.sort_dir }}{% else %}sorting{% endif %}{% endif %}" {% if column.sortable %}sortable="sortable" sortkey="{{ column.name }}" sortdir="{{ column.sort_dir }}"{% endif %}>
+                            {{ column.title }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody style="background-color: #FFFFFF">
+                {{ rows_html | safe }}
+            </tbody>
+        </table>
+    </div>
+</div>

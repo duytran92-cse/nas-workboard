@@ -1,0 +1,4 @@
+{% extends 'material/widgets/field/field.html' %}
+{% block field_widget %}
+    <textarea class="html-editor" type="textarea" class="form-control" name="{{ field.id }}">{{ field.data }}</textarea>
+{% endblock %}

@@ -1,0 +1,287 @@
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card" id="profile-main" style="min-height: 200px">
+                <div class="c-overflow">
+                    <div class="pmo-pic">
+                        <div class="p-relative">
+                            <a href="">
+                                <img class="img-responsive" src="{% static 'material/img/profile.jpg' %}" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pmo-block pmo-contact hidden-xs">
+                        <h2>Contact</h2>
+                        <ul>
+                            <li><i class="zmdi zmdi-account"></i>{{ user.name }}</li>
+                            <li><i class="zmdi zmdi-email"></i> {{ user.email }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Performance Reports</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <tr>
+                            <td style="width: 40%">Month</td>
+                            <td><input id="performance_report_month" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%">Year</td>
+                            <td><input id="performance_report_year" type="text" class="form-control" style="width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a target="_blank" class="btn btn-xs btn-success" href="javascript:generate_performance_report()">Report</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
+                        function generate_performance_report() {
+                            var month = jQuery('#performance_report_month').val()
+                            var year = jQuery('#performance_report_year').val()
+                            document.location = "/report/export_performance_report?month=" + month + "&year=" + year
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="card">
+
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%; text-transform: capitalize;font-weight: bold">Board statistics</th>                             
+                            </tr>
+                                <tr>
+                                    <th style="padding-left: 50px">Board name </th>
+                                        {% for status in board_status %}
+                                        <th>
+                                            <a class='board-status' style="color: {{ status.text_color }}; background-color: {{ status.bg_color }}"> 
+                                                {{ status.sts }} ({{ status.total }})
+                                            </a>
+                                        </th>
+                                        {% endfor %}
+                                    </tr>
+                                </tr>
+
+
+                                <!-- get color from database -->
+
+
+                                <!-- {% for board_closed in board_closed %}
+                                <tr>
+                                    <th style="padding-left: 50px; text-transform: capitalize; font-weight: normal">{{ board_closed.board }}</td>
+                                    
+                                    <th><a class="board-status" style="background-color: #999999; color: #FFFFFF; text-transform: lowercase">closed</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                {% endfor %}
+                                
+                                {% for board_completed in board_completed %}
+                                <tr>
+                                    <th style="padding-left: 50px; text-transform: capitalize; font-weight: normal">{{ board_completed.board }}</td>
+                                    <th></th>
+                                    <th><a class="board-status" style="background-color: #009900; color: #FFFFFF; text-transform: lowercase">completed</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                {% endfor %} -->
+
+                                {% for board_in_progress in board_in_progress %}
+                                <tr>
+                                    <th style="padding-left: 50px; text-transform: capitalize; font-weight: normal">{{ board_in_progress.board }}</td>
+                                    <th></th>
+                                    <th></th>
+                                    <th><a class="board-status" style="background-color: #EBF2F9; color: #3B73BC; text-transform: lowercase">in progress</th>
+                                    <th></th>
+                                </tr>
+                                {% endfor %}
+
+                                <!-- {% for board_open in board_open %}
+                                <tr>
+                                    <th style="padding-left: 50px; text-transform: capitalize; font-weight: normal">{{ board_open.board }}</td>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><a class="board-status" style="background-color: #FFFFFF; color: #000000; text-transform: lowercase">open</th>
+                                </tr>
+                                {% endfor %} -->
+
+                        </thead>
+                        
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- get color from database -->
+            <div class="card">
+                    <table class="table table-hover table-condensed">
+                        <tr>
+                            <th style="width: 66%; text-transform: capitalize; font-weight: bold">Story statistics
+                            </th>
+                                <th style="text-transform: lowercase">
+                                    <a class="board-status" style="color: #b8860b; background-color: #fff5ee; margin: 50px; white-space: nowrap;font-weight: normal" href="#">
+                                        {{ story_in_progress }} in progress
+                                    </a>
+                                </th>
+                                
+                                <th style="width: 40%"></th>
+
+                            </tr>
+                    </table>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 11%">User ({{ total_user }})</th>
+                                <th style="width: 12%">Number of story</th>
+
+                                <!-- get column name, bg_color, text_color from database -->
+
+                                <th style="width: 10%"><a class="board-status" style="background-color: #FFFFFF; color: black">Backlog</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #ebf2f9; color: #3b73bc">Pending</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #fff5ee; color: #b8860b">In progress</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #fff5ee; color: #cc2900">Testing</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #d8bfd8; color: #8b008b">Acceptance</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #98fb98; color: #006400">Accepted</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #ffcccc; color: #ff0000">Failed</a></th>
+                                <th style="width: 10%"><a class="board-status" style="background-color: #CCCCCC; color: #ffffff">Icebox</a></th>
+
+                            </tr>
+                            {% for user in user_data %}      
+                            <tr>
+                                <!-- ger bg_color, text_color for each board story status from database -->
+                                <th style="text-transform: capitalize; font-weight: normal">{{ user.user }}</th>
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        {{ user.total_stories }}
+                                    </th>
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #FFFFFF; color: black">
+                                            {{ user.stories_backlog | length }} stories
+                                        </a>
+                                    </th>
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #ebf2f9; color: #3b73bc">
+                                            {{ user.stories_pending | length }} stories
+                                        </a>
+                                    </th>
+                                    
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #fff5ee; color: #b8860b">
+                                            {{ user.stories_in_progress | length }} stories
+                                        </a>
+                                    </th>
+
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #fff5ee; color: #cc2900">
+                                            {{ user.stories_testing | length }} stories
+                                        </a>
+                                    </th>
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #d8bfd8; color: #8b008b">
+                                            {{ user.stories_acceptance | length }} stories
+                                        </a>
+                                    </th>
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #98fb98; color: #006400">
+                                            {{ user.stories_accepted | length }} stories
+                                        </a>
+                                    </th>
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #ffcccc; color: #ff0000">
+                                            {{ user.stories_failed | length }} stories
+                                        </a>
+                                    </th>
+
+                                    <th style="text-transform: lowercase; font-weight: normal">
+                                        <a class="board-status" style="background-color: #CCCCCC; color: #ffffff">
+                                            {{ user.stories_icebox | length }} stories
+                                        </a>
+                                    </th>
+                                
+                                </th>
+                            </tr>
+                            {% endfor %}
+
+                            <!-- <tr>
+                                <th style="text-transform: capitalize; font-weight: normal">{ user 2 }</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                            </tr>
+
+                            <tr>
+                                <th style="text-transform: capitalize; font-weight: normal">{ user 3 }</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                            </tr> -->
+
+                        </thead>
+                        <tbody>
+                            {% for user in story_by_user_data %}
+                                <tr>
+                                    <td>
+                                        {{ user.user }}
+                                    </td>
+                                    <!-- <td>
+                                        {% for category in story_by_user_data %}
+                                            {% if category.user == user.user %}
+                                                <a class="board-status" style="color: #b8860b; background-color: #fff5ee; white-space: nowrap" href="#">{{ category.category_number }} in progress</a>
+                                            {% endif %}
+                                        {% endfor%}
+                                    </td>
+                                    <td>
+                                        {% for story in story_by_user_data %}
+                                            {% if story.user == user.user %}
+                                                <a class="board-status" style="color: #b8860b; background-color: #fff5ee; white-space: nowrap" href="#">{{ story.story_number }} stories</a>
+                                            {% endif %}
+                                        {% endfor%}
+                                    </td>
+                                    <td><a class="btn btn-xs btn-primary" href="#">View</a></td> -->
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

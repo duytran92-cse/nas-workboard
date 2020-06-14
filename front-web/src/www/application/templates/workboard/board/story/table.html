@@ -1,0 +1,117 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Story</h2>
+        <ul class="actions">
+            <div class="btn-group">
+                {% for button in buttons %}
+                <a id= "{{ button.name }}" href="{{ button.url }}" class="{{ button.bclass }}">{{ button.iclass }}</a>
+                {% endfor %}
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+                    Change stage
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    {% for stage in all_stage %}
+                        <li><a href="#" onclick="return change_stage({{ stage.id }})">{{ stage.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-condensed" id="table-story">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th width="{{ column.width }}" class="{% if column.sortable %}{% if column.sort_dir != '' %}sorting_{{ column.sort_dir }}{% else %}sorting{% endif %}{% endif %}" {% if column.sortable %}sortable="sortable" sortkey="{{ column.name }}" sortdir="{{ column.sort_dir }}"{% endif %}>
+                            {{ column.title }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody style="background-color: #FFFFFF">
+                {{ rows_html | safe }}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function() {
+        jQuery('#table-story > tbody > tr > td.cell').click(function(e) {
+            var key = jQuery(this).parent().attr('val');
+            if (window.event.ctrlKey){
+                window.open('/board/detail/'+ jQuery('#board-id-'+ key).val()+'/story/update/'+ jQuery('#story-id-'+ key).val(),'_blank');
+            }
+            else {
+                window.location.href = '/board/detail/'+ jQuery('#board-id-'+ key).val()+'/story/update/'+ jQuery('#story-id-'+ key).val();
+            }
+        })
+        jQuery("#bulk-delete").click(function() {
+            var array_id = get_checked();
+            if (array_id.length > 0) {
+                swal({
+                        title: "Are you sure?",
+                        text: "You will not be able to recover this imaginary file!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, delete it!",
+                    }).then(function(isConfirm){
+                        if (isConfirm) {
+
+                            var _url = '/board/detail/'+ {{ board_id }}+ '/story/bulk_delete';
+                            jQuery.ajax({
+                                type: "POST",
+                                dataType: 'json',
+                                url: _url,
+                                data: {
+                                    'arr_story_id': array_id
+                                },
+                                async: false,
+                                success: function (result) {
+                                    location.reload();
+                                },
+                                error: function (result) {
+                                    swal("Cancelled", result, "error");
+                                }
+                            });
+                        } else {
+                            swal("Cancelled", "Your imaginary file is safe :)", "error");
+                        }
+                    });
+            }
+
+        })
+    });
+    function get_checked() {
+        var checkboxes = jQuery("input[name='checkbox-story']");
+        var array_id = [];
+        checkboxes.each(function(i, v) {
+            if (jQuery(this).is(':checked')) {
+                var id = jQuery(this).attr('id');
+                array_id.push(id);
+            }
+        });
+        return array_id;
+    }
+    function change_stage(next_stage_id) {
+        var array_id = get_checked();
+        if (jQuery('#next_stage').val() != 0 && array_id.length > 0) {
+            jQuery.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: '/board/detail/'+ {{ board_id }}+ '/story/change_stage',
+                data: {
+                    'arr_story_id': array_id,
+                    'next_stage_id': next_stage_id
+                },
+                async: false,
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                }
+            });
+        }
+    }
+
+</script>

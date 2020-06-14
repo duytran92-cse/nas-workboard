@@ -1,0 +1,41 @@
+
+{% if widget.stage.responsibilities|length > 0 %}
+    <div class="block-header">
+        <h2>Stage manager</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body" style="background-color: #E0F7FA">
+            <div class="list-group">
+                {% for responsibility in widget.stage.responsibilities %}
+                    <div class="list-group-item media">
+                        <div class="media-body">
+                            <div class="lgi-heading">{{ responsibility.user_label }}</div>
+                            <small>{{ responsibility.description }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if widget.stage.instructions|length > 0 %}
+    <div class="block-header">
+        <h2>Instruction</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="list-group">
+                {% for instruction in widget.stage.instructions %}
+                    <div class="list-group-item media">
+                        <div class="media-body">
+                            <small>{{ instruction.instruction }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

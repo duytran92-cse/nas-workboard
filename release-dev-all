@@ -1,0 +1,6 @@
+#! /bin/bash
+cd admin-web && make build && cd ..
+cd api-web && make build && cd ..
+cd front-web && make build && cd ..
+cd deploy/dev/ && make clear-storage && make clean && make create-storage && make deploy
+

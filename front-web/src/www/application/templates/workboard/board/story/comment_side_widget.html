@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Comment</h2>
+    </div>
+    <div class="card-body">
+        <div class="list-group">
+            <div class="list-group-item media">
+                {% for cmt in widget.cmts.arr_cmts %}
+                <div class="media-body">
+                    <div class="text-user">
+                        <small>{{ cmt.username }}</small>
+                        <em class="pull-right" style="color: #CCC"> {{ cmt.timestamp}} </em>
+                    </div>
+                    <p><small>{{ cmt.description }} </small></p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="container list-group-item media" style="padding-top:0px">
+                <div class="row">
+                    <div class="col-md-10">
+                        <textarea type="textarea" class="form-control" placeholder="" rows="3" id="cmt-description"></textarea>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="#" onclick="return addCmt()" class="btn btn-xs btn-primary"> Post </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function addCmt() {
+        var description = jQuery("#cmt-description").val();
+        if (description.trim() != '') {
+            var _url = "/board/detail/{{ widget.cmts.board_id }}/story/add_cmt";
+            var story_id ="{{ widget.cmts.story_id }}";
+            jQuery.ajax({
+                url: _url,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'story_id': story_id,
+                    'description': description
+                },
+                async: false,
+            })
+            .done(function(result) {
+                location.reload();
+            })
+            .fail(function(error) {
+                console.log("error");
+            })
+
+        }
+    }
+</script>

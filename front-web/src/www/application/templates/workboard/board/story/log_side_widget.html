@@ -1,0 +1,64 @@
+{% if widget.logs.array_logs|length > 0 %}
+<div class="card">
+    <div class="card-header">
+        <h2>Stage change logs</h2>
+        <ul class="actions">
+            <li><a data-toggle="modal" href="#" onclick="showModal();"> <i class="zmdi zmdi-more"></i> </a></li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover table-condensed">
+            <tbody style="background-color: #FFFFFF">
+                {% for log in widget.logs.array_logs %}
+                    <tr>
+                        <td style="width: 25%;"> <small> {{ log.username }}  </small>
+                        <td style="width: 25%;"> <small> {{ log.description }} </small>
+                            <td style="width: 25%;"> <small> {{ log.assignee }} </small>
+                        <td style="width: 25%; color: #CCC; text-align: right"><small> {{ log.timestamp }} </small>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+
+<div class="modal fade" id="log-all" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:500">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Stage change logs</h4>
+          </div>
+          <div class="modal-body">
+              <table class="table table-hover table-condensed">
+                  <tbody style="background-color: #FFFFFF">
+                      {% for log in widget.logs.array_log_unlimit %}
+                          <tr>
+                              <td style="width: 25%;"> <small> {{ log.username }}  </small>
+                              <td style="width: 25%;"> <small> {{ log.description }} </small>
+                                  <td style="width: 25%;"> <small> {{ log.assignee }} </small>
+                              <td style="width: 25%; color: #CCC; text-align: right"><small> {{ log.timestamp }} </small>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-link" data-dismiss="modal" onclick="closeModal()">Close
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+    function showModal() {
+        jQuery('.redactor-toolbar').attr('style', "position: relative; width: auto; top: 0px; left: 0px; visibility: visible;z-index:0");
+        jQuery('#log-all').modal();
+    }
+    function closeModal() {
+        jQuery('.redactor-toolbar').attr('style', "position: relative; width: auto; top: 0px; left: 0px; visibility: visible;z-index:100");
+    }
+</script>

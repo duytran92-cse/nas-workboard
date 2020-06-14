@@ -1,0 +1,89 @@
+<div class="block-header">
+    <h2>{{ summary.name }}</h2>
+    <small> {{ summary.description }} </small>
+</div>
+
+<div class="block-header">
+    <h2>Goal</h2>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-condensed" id="table-task">
+                        <thead>
+                            <tr>
+                                <th width="30%">
+                                    Name
+                                </th>
+                                <th width="20%">
+                                    User
+                                </th>
+                                <th width="20%">
+                                    Status
+                                </th>
+                                <th width="20%">
+                                    Category
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                            {% for goal in summary.goals %}
+                            <tr>
+                                <td> {{ goal.name }} </td>
+                                <td> {{ goal.username }} </td>
+                                <td> {{ goal.status }} </td>
+                                <td> {{ goal.category }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-header">
+    <h2>Task</h2>
+    <br/>
+    {% if summary.category_task|length > 0 %}
+    <div class="container">
+        <div class="row">
+            <small> {{ category.name }} </small>
+            <div class="card" style="margin-top:10px">
+                <div class="card-body">
+
+                    <table class="table table-hover table-condensed" id="table-task">
+                        <thead>
+                            <tr>
+                                <th width="30%">
+                                    Name
+                                </th>
+                                <th width="20%">
+                                    User
+                                </th>
+                                <th width="20%">
+                                    Stage
+                                </th>
+                                <th width="20%">
+                                    Category
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                            {% for row in summary.category_task %}
+                            <tr style="cursor:pointer" onclick="goto_task({{row.board_id}}, {{ row.id }})">
+                                <td> {{ row.name }} </td>
+                                <td> {{ row.assignee }} </td>
+                                <td> {{ row.stage_label }} </td>
+                                <td> {{ row.category_name }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,14 @@
+{% extends 'material/widgets/field/field.html' %}
+{% block field_widget %}
+    <div class="cp-container">
+        <div class="input-group form-group" style="width: 100%">
+            <div class="fg-line dropdown">
+                <input type="text" class="form-control cp-value" id="{{ field.id }}" name="{{ field.id }}" value="{% if field.data %} {{ field.data }} {% else %} #FFFFFF {% endif %}" data-toggle="dropdown" style="background-color: rgb(3, 169, 244); color: rgb(255, 255, 255);" aria-expanded="false">
+                <div class="dropdown-menu">
+                    <div class="color-picker" data-cp-default="{% if field.data %} {{ field.data }} {% else %} #FFFFFF {% endif %}"><div class="farbtastic"><div class="color" style="background-color: rgb(0, 176, 255);"></div><div class="wheel"></div><div class="overlay"></div><div class="h-marker marker" style="left: 70px; top: 177px;"></div><div class="sl-marker marker" style="left: 49px; top: 99px;"></div></div></div>
+                </div>
+                <i class="cp-value" style="background-color: {% if field.data %} {{ field.data }} {% else %} #FFFFFF {% endif %}"></i>
+            </div>
+        </div>
+    </div>
+{% endblock %}

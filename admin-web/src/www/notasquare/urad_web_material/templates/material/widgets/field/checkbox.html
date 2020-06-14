@@ -1,0 +1,9 @@
+{% extends 'material/widgets/field/field.html' %}
+{% block field_widget %}
+    <div class="checkbox m-b-15" >
+        <label>
+            <input type="checkbox" name="{{ field.id }}" {% if field.data %} value="{{ field.data }}" {% endif %} id="{{ field.id }}" {% if field.data == True %} checked="checked" {% endif %} class="input">
+            <i class="input-helper"></i>
+        </label>
+    </div>
+{% endblock %}

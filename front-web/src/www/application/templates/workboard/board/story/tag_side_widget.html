@@ -1,0 +1,95 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Tags</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-condensed">
+            <tbody>
+                {% for val in widget.log_tag %}
+                    <tr>
+                        <td width="35%"> {{ val.tag_name }} </td>
+                        <td> {{ val.value }} </td>
+                        <td style="text-align: right"> <a href="#" onclick="return delete_tag({{ val.id }});" class=""> <i style="font-size: 16px" class="zmdi zmdi-close"></i> </a> </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>
+                        <select class="form-control" id="tag-select">
+                            <option value="0"></option>
+                            {% for tag in widget.tags %}
+                            <option value="{{ tag.id }}">{{ tag.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control" placeholder="" id="tag-value"></textarea></td>
+                    <td style="text-align: right">
+                        <a href="#" onclick="return add_tag(event);" class="btn btn-xs btn-primary"> Save </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script>
+    function add_tag(e) {
+        e.preventDefault();
+        var tag_id = jQuery("#tag-select").val();
+        var value = jQuery('#tag-value').val();
+        if (parseInt(tag_id) > 0 && value != '') {
+
+            var _url = "/board/detail/{{ widget.board_id }}/story/add_tag";
+            var story_id ="{{ widget.story_id }}";
+            var board_id = "{{ widget.board_id }}";
+            jQuery.ajax({
+                url: _url,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'story_id': story_id,
+                    'value': value,
+                    'tag_id': tag_id,
+                    'board_id': board_id
+                },
+                async: false,
+            })
+            .done(function(result) {
+                location.reload();
+            })
+            .fail(function(error) {
+                console.log("error");
+            })
+        }
+    }
+    function delete_tag(tag_id) {
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+            }).then(function(isConfirm){
+                if (isConfirm) {
+                    var _url = '/board/detail/'+ {{ widget.board_id }} + '/story/delete_tag';
+                    jQuery.ajax({
+                        type: "POST",
+                        dataType: 'json',
+                        url: _url,
+                        data: {
+                            'id': tag_id
+                        },
+                        async: false,
+                        success: function (result) {
+                            location.reload();
+                        },
+                        error: function (result) {
+                            swal("Cancelled", result, "error");
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+    }
+
+</script>

@@ -1,0 +1,254 @@
+<!-- Summary -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-10  col-md-offset-1 col-sm-offset-1 ">
+            <div class="block-header">
+                <h1 class="lgi-heading" style="color: #333; font-size: 24px">{{ data.board_name|default:"Board name goes here" }}</h1>
+                <small> {{ data.board_description|default:"Board description goes here" }} </small>
+                <ul class="actions">
+                    <li>
+                        <a class="btn btn-primary no-dislay" href="/board/home/{{data.board_id}}" style="min-width: 87px;" >
+                            Back
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-sm-10  col-md-offset-1 col-sm-offset-1 ">
+            <div class="card">
+                <div class="card-header" style="background-color: #000000">
+                    <h2 style="color: #FFFFFF">Team</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed" id="table-task">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" width="20%">Username</th>
+                                <th style="text-align: left;" width="80%">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                        {% for r in data.summary.team %}
+                            <tr>
+                                <td> {{ r.name }} </td>
+                                <td>
+                                {% if r.role %}
+                                <ul>
+                                    {% for i in r.role  %}
+                                        <li>{{ i }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goal -->
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1 ">
+            <small> {{ category.name }} </small>
+            <div class="card" style="margin-top:10px">
+                <div class="card-header" style="background-color: #000000; border-bottom: none !important">
+                    <h2 style="color: #FFFFFF">Goal statistics</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed" id="table-task">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" width="20%">User</th>
+                                {% for r in data.summary.goal.tbl_header %}
+                                    <th width="20%" style="color: {{ r.text_color }}; background-color: {{ r.bg_color }}; text-align: right;">
+                                        {{ r.name }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                        {% for r in data.summary.goal.users %}
+                            <tr style="text-align: right;">
+                                <td style="text-align: left;">{{ r.name|default:0 }}</td>
+                                <td>{{ r.active|default:0 }}</td>
+                                <td>{{ r.success|default:0 }}</td>
+                                <td>{{ r.failed|default:0 }}</td>
+                                <td>{{ r.rejected|default:0 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Goal -->
+
+    <!-- Story -->
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1 ">
+            <div class="card" style="margin-top:10px">
+                <div class="card-header" style="background-color: #000000; border-bottom: none !important">
+                    <h2 style="color: #FFFFFF">Story statistics</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed" id="table-task">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" width="20%">User</th>
+                                {% for k, r in data.summary.story.tbl_header.items %}
+                                    <th style="color: {{ r.text_color }}; background-color: {{ r.bg_color }}; text-align: right;">
+                                        {{ r.name }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                        {% for r in data.summary.story.users %}
+                            <tr>
+                                <td width="20%">{{r.name}}</td>
+                                {% for x, s in r.story.items %}
+                                <td style="text-align: right;">{{s|default:0}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Story -->
+</div>
+<!-- /Summary -->
+
+
+<!--
+    *************************************************
+    *********************Detail**********************
+    *************************************************
+-->
+<div class="container">
+    <!-- Goal -->
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1 ">
+            <div class="card" style="margin-top:10px">
+                <div class="card-header" style="background-color: #000000">
+                    <h2 style="color: #FFFFFF">Goals</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed" id="table-detail-goal1">
+                        <thead>
+                            <tr>
+                                <!-- <th style="text-align: center;" width="20%">User</th> -->
+                                <th style="text-align: left;" width="60%">Name</th>
+                                <th style="text-align: left;" width="20%">Objectives</th>
+                                <th style="text-align: left;" width="20%">Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                {% for r in data.detail.goal %}
+                    <table class="table table-hover table-condensed" id="table--detail-goal2">
+                        <thead>
+                            <tr>
+                                <th style="background-color: #F9F9F9" colspan="4">{{ r.name }}</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                        {% for i in r.goal %}
+                            <tr>
+                                <td width="60%" style="padding-left: 50px">{{ i.name }}</td>
+                                <td style="text-align: left;" width="20%">
+                                {% for p, o in i.objectives.items %}
+                                    <span class="board-status" style="color: {{ o.data.text_color }}; background-color: {{ o.data.bg_color }}; white-space: nowrap"><b>{{ o.count|default:0 }}</b> {{ o.data.name }}</span>
+                                {% endfor %}
+                                </td>
+                                <td style="text-align: left;" width="20%">
+                                    <span class="board-status" style="color: {{ i.status.text_color }}; background-color: {{ i.status.bg_color }}; white-space: nowrap">{{ i.status.name }}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Goal -->
+
+    <!-- Story -->
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1 ">
+            <div class="card" style="margin-top:10px">
+                <div class="card-header" style="background-color: #000000">
+                    <h2 style="color: #FFFFFF">Stories</h2>
+                </div>
+
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-condensed" id="table-detail-story1" style="margin-bottom: 0px">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" width="40%">Name</th>
+                                <th style="text-align: left;" width="20%">Category</th>
+                                <th style="text-align: left;" width="20%">Stage</th>
+                                <th style="text-align: left;" width="20%">Rating</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    {% for r in data.detail.story %}
+                    <table class="table table-hover table-condensed" id="table-detail-story2" style="margin-bottom: 0px">
+                        <thead>
+                            <tr>
+                                <th style="background-color: #F9F9F9" colspan="4">{{ r.name }}</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #FFFFFF">
+                        {% for i in r.story %}
+                            <tr style="background-color: {{ i.status.bg_color }}; color: {{ i.status.text_color }};">
+                                <td width="40%" style="padding-left: 50px">{{ i.name }}</td>
+                                <td width="20%">{{ i.category|title }}</td>
+                                <td width="20%">{{ i.status.name|title }}</td>
+                                <td width="20%">
+                                    <b>
+                                        {% if i.rating.rating == 1 %}
+                                            +1
+                                        {% elif i.rating.rating == 2 %}
+                                            -1
+                                        {% else %}
+                                        {% endif %}
+                                    </b>
+                                    <small>{{ i.rating.description }}</small>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Story -->
+</div>
+<!-- /Detail -->
+<style type="text/css">
+    @media print {
+        #table-detail-story2 {
+            background-color: red;
+        }
+        tr.vendorListHeading {
+            background-color: #1a4567 !important;
+            -webkit-print-color-adjust: exact;
+    }}
+
+        @media print {
+            .vendorListHeading th {
+            color: white !important;
+    }}
+</style>

@@ -1,0 +1,121 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-2" style="padding-left: 35px">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{{ board.name }}</h2>
+                </div>
+                <div class="card-body card-padding" style="padding-top: 20px">
+                    <div><a href="/board/home/{{ board.id }}" class="active-menu">Home</a></div>
+                    <div id="assignment"><a href="/board/view_assignment/{{ board.id }}">Instruction</a></div>
+
+                    <div style="margin-top: 20px"><small>Your</small></div>
+                    <div id="your_goal"><a href="/board/detail/{{ board.id }}/goal/list?is_your_goal=1">Goal ({{ num_static.num_your_goal |default:0}})</a></div>
+                    <div id="your_story"><a href="/board/detail/{{ board.id }}/story/list?is_your_story=1">Story ({{ num_static.num_your_story }})</a></div>
+
+                    <div style="margin-top: 20px"><small>Board</small></div>
+                    <div id="story"><a href="/board/detail/{{ board.id }}/story/list">Story ({{ num_static.num_story }})</a></div>
+                    <div id="goal"><a href="/board/detail/{{ board.id }}/goal/list">Goal ({{ num_static.num_goal }})</a></div>
+                    <div id="event"><a href="/board/detail/{{ board.id }}/event/list">Events ({{ num_static.num_event }})</a></div>
+                    <div style="margin-top: 20px"><small>Stages</small></div>
+                    {% for s in stages %}
+                        <div id="stage-{{ s.id }}"><a href="/board/detail/{{ board.id }}/story/list?stage_id={{ s.id }}">{{ s.name }} {% if s.num_story > 0 %} ({{ s.num_story }}) {% endif %}</a></div>
+                    {% endfor %}
+
+                    <div style="margin-top: 20px"><small>Categories</small></div>
+                    {% for c in categories %}
+                        <div id="category-{{ c.id }}"><a href="/board/detail/{{ board.id }}/story/list?category_id={{ c.id }}">{{ c.name }} {% if c.num_story > 0 %} ({{ c.num_story }}) {% endif %}</a></div>
+                    {% endfor %}
+
+                    <div style="margin-top: 20px"><small>Assignee</small></div>
+                    {% for u in user_assignee %}
+                        <div id="assignee-{{ u.id }}"><a href="/board/detail/{{ board.id }}/story/list?assignee_id={{ u.id }}">{{ u.name }} {% if u.num_story > 0 %} ({{ u.num_story }}) {% endif %}</a></div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Summary</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <tbody>
+                            <!-- Story -->
+                            <tr>
+                                <td>Story</td>
+                                <td>
+                                    {% for x in home_static.board_story_stats %}
+                                        <a href="/board/detail/{{ board.id }}/story/list?stage_id={{ x.id }}" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                            <b>{{ x.count }}</b> {{ x.name|lower }}
+                                        </a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <!-- /Story -->
+                            <!-- Goal -->
+                            <tr>
+                                <td>Goal</td>
+                                <td>
+                                    {% for x in home_static.board_goal_stats %}
+                                        <a href="/board/detail/{{ board.id }}/goal/list" class="board-status" style="color: {{ x.text_color }}; background-color: {{ x.bg_color }}; white-space: nowrap">
+                                            <b>{{ x.count }}</b> {{ x.name|lower }}
+                                        </a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <!-- /Goal -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End Main content -->
+        <!-- Right content -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Upcoming events</h2>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for event in home_data.event %}
+                        <div class="list-group-item media">
+                            <div class="pull-left">
+                                <div class="event-date bgm-green">
+                                    <span class="ed-day">{{ event.event_day }}</span>
+                                    <span class="ed-month-time">{{ event.event_month }}</span>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <div class="lgi-heading">{{ event.name }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Board Members</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-condensed">
+                        <tbody>
+                            {% for user in home_data.board_users %}
+                                <tr>
+                                    <td>{{ user.name }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Right content -->
+    </div>
+</div>

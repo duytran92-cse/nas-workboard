@@ -1,0 +1,36 @@
+
+{% if widget.category.responsibilities|length > 0 %}
+<div class="card">
+    <div class="card-header">
+        <h2>Assignment</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover table-condensed">
+            <tbody>
+                {% for responsibility in widget.category.responsibilities %}
+                    <tr><td>{{ responsibility.user_label }} {{ responsibility.description }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if widget.category.goals|length > 0 %}
+<div class="card">
+    <div class="card-header">
+        <h2>Goal</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover table-condensed">
+            <tbody>
+                {% for goal in widget.category.goals %}
+                    <tr><td>{{ goal.name }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
